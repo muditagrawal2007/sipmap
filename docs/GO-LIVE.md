@@ -2,13 +2,14 @@
 
 This is a single, linear guide. Do each step in order. Don't skip ahead.
 
+> **Using Render (recommended — no credit card needed).**
+> Fly.io is documented in [`docs/self-host.md`](./self-host.md) but requires a credit card on signup.
+
 ---
 
 ## STEP 0 — Open a terminal
 
 Open Terminal.app on your Mac. You'll type commands here.
-
-All later steps assume you're in the sipmap folder. Run this once:
 
 ```bash
 cd /Users/muditagrawal/Documents/Developer/sipmap
@@ -16,43 +17,23 @@ cd /Users/muditagrawal/Documents/Developer/sipmap
 
 ---
 
-## STEP 1 — Install the Fly.io command-line tool (one-time)
+## STEP 1 — Sign up to Render (one-time, browser)
 
-Copy-paste this into your terminal:
+Open in your browser:
 
-```bash
-brew install flyctl
+```
+https://render.com/register
 ```
 
-Wait for it to finish. Then verify:
+- Click **Sign up with GitHub**
+- Authorize Render to access your repos (you can scope it to just `sipmap` later)
+- **No credit card needed** for the free tier
 
-```bash
-fly version
-```
-
-You should see something like `fly v0.4.77 ...`.
+You'll land on the Render dashboard.
 
 ---
 
-## STEP 2 — Create a Fly.io account (one-time)
-
-```bash
-fly auth signup
-```
-
-A browser tab opens. Sign up with email + password. Free tier; credit card required but **not charged** unless you exceed free limits.
-
-After signup, come back to your terminal. Verify:
-
-```bash
-fly auth whoami
-```
-
-It should print your email.
-
----
-
-## STEP 3 — Register the GitHub App (one-time, in browser)
+## STEP 2 — Register the GitHub App (one-time, browser)
 
 Open this URL **in your browser** (logged in as `muditagrawal2007`):
 
@@ -62,113 +43,133 @@ https://github.com/settings/apps/new?manifest=https://raw.githubusercontent.com/
 
 You'll see a form pre-filled with everything. Just:
 
-1. **Webhook URL**: leave the placeholder as-is for now (we'll fix it in step 6)
+1. **Webhook URL**: paste this EXACT value (Render will host your bot here):
+   ```
+   https://sipmap.onrender.com/
+   ```
+   (Don't worry — even if Render gives you a different name, you can fix this later.)
 2. Click the green **Create** button
 
-You're taken to the App settings page.
+You're taken to the App settings page. **Do these 3 things:**
 
-**Now do these 4 things in order on that page:**
+### 2a — Copy the App ID
 
-### 3a — Copy the App ID
+The App ID is a number near the top of the **General** tab. Example: `123456`. **Save it.**
 
-The App ID is a number near the top of the **General** tab.
+### 2b — Set the Webhook Secret
 
-Example: `123456`
-
-**Save it somewhere** (you'll paste it soon).
-
-### 3b — Set the Webhook Secret
-
-Scroll down on the **General** tab to find **Webhook secret**.
-
-Click into the field and paste this:
+Scroll down to **Webhook secret**. Paste this exact string:
 
 ```
-sipmap-shared-secret-change-me-in-production
+sipmap-shared-secret-2026
 ```
 
-(Or make up your own random string. We'll use this exact string in step 5.)
+(You can change it later if you want — but use this exact string for now, and we'll use the same in Render.)
 
-### 3c — Download the private key
+### 2c — Download the private key
 
 Still on the **General** tab, scroll to **Private keys**.
 
 Click **Generate a private key**.
 
-A file downloads — it's named something like `muditagrawal2007-sipmap.2026-08-03.private-key.pem`.
-
-**Move it into the sipmap folder and remember the path**, e.g.:
+A `.pem` file downloads. Move it into the sipmap folder:
 
 ```bash
 mv ~/Downloads/muditagrawal2007-sipmap.*.pem /Users/muditagrawal/Documents/Developer/sipmap/app-private-key.pem
 ```
 
-### 3d — Make the App public
+### 2d — Make the App public
 
-In the left sidebar, click **Public page**.
-
-Make sure it's set to **Public** (a toggle). If it says "Make public", click it.
+Left sidebar → **Public page**. Make sure the App is **Public**.
 
 ---
 
-## STEP 4 — Deploy to Fly.io (one command)
+## STEP 3 — Create the Render service from blueprint
 
-Go back to your terminal. You're still in the sipmap folder. Run:
-
-```bash
-scripts/deploy-fly.sh
-```
-
-The script will ask you for:
-
-1. **App name** — press Enter to accept the default `sipmap`
-2. **Region** — type one close to you, e.g. `sin` (Singapore), `iad` (US East), `fra` (Frankfurt), `syd` (Sydney)
-3. **APP_ID** — paste the number from step 3a
-4. **Path to .pem private key file** — paste: `/Users/muditagrawal/Documents/Developer/sipmap/app-private-key.pem`
-5. **WEBHOOK_SECRET** — paste: `sipmap-shared-secret-change-me-in-production` (the same string from step 3b)
-
-The script then automatically:
-- Creates the app on Fly.io
-- Sets the 3 secrets
-- Deploys the Docker image
-- Waits for it to come online
-
-**Wait ~3-5 minutes.** It prints progress.
-
-When it's done, you'll see something like:
+Open in your browser:
 
 ```
-🎉 Deploy complete!
-
-Your webhook URL is: https://sipmap.fly.dev/
+https://dashboard.render.com/blueprints
 ```
 
-**Copy that URL.** You'll need it in step 5.
+Click **New Blueprint Instance**.
+
+- **Connect your GitHub account** if you haven't (top-right → Account Settings → Connections)
+- **Repository**: select `muditagrawal2007/sipmap`
+- Render auto-detects the `render.yaml` file and shows the service config
+- Click **Apply**
+- Render starts building (takes ~2 min)
+
+You'll see a new service called **sipmap** in your dashboard. Build takes ~2 minutes.
 
 ---
 
-## STEP 5 — Tell GitHub where the bot is running
+## STEP 4 — Set the 3 environment variables
 
-In your browser, go to:
+In your Render dashboard, click the **sipmap** service → **Environment** (left sidebar).
 
-```
-https://github.com/settings/apps
-```
+Click **Add Environment Variable** for each of these three:
 
-Click your `sipmap` App → left sidebar → **Webhook**.
+### Variable 1: `APP_ID`
 
-Update two fields:
+- **Key**: `APP_ID`
+- **Value**: paste the number from step 2a (e.g. `123456`)
 
-1. **Webhook URL**: paste your Fly URL (e.g. `https://sipmap.fly.dev/`)
-2. **Webhook secret**: paste `sipmap-shared-secret-change-me-in-production` (same string from step 3b)
+### Variable 2: `WEBHOOK_SECRET`
 
-Click **Save changes**.
+- **Key**: `WEBHOOK_SECRET`
+- **Value**: `sipmap-shared-secret-2026` (the SAME string from step 2b)
 
-GitHub immediately sends a `ping` event to verify. After ~5 seconds, look at the **Recent deliveries** section — you should see a green checkmark indicating success.
+### Variable 3: `PRIVATE_KEY`
+
+- **Key**: `PRIVATE_KEY`
+- **Value**: paste your PEM contents with newlines escaped as `\n`. Easiest way — run this in your terminal:
+
+  ```bash
+  PRIVATE_KEY_VAL=$(cat /Users/muditagrawal/Documents/Developer/sipmap/app-private-key.pem | sed ':a;N;$!ba;s/\n/\\n/g')
+  echo "$PRIVATE_KEY_VAL"
+  ```
+
+  Copy the entire output (including `-----BEGIN` and `-----END` markers with `\n` between lines).
+
+  Paste it into the Render Value field.
+
+Click **Save Changes**. Render redeploys automatically (~2 min).
 
 ---
 
-## STEP 6 — Install the App in a test repo
+## STEP 5 — Verify the bot is alive
+
+Wait for the deploy to finish (~2 min). Then click the URL at the top of the Render dashboard — it looks like:
+
+```
+https://sipmap.onrender.com/
+```
+
+You should see:
+
+```
+sipmap is running.
+```
+
+✅ The bot is live.
+
+---
+
+## STEP 6 — Update the webhook URL back to Render
+
+If your Render URL turned out different from `sipmap.onrender.com/`, fix it in GitHub:
+
+1. https://github.com/settings/apps → click `sipmap`
+2. Left sidebar → **Webhook** → **Webhook URL**
+3. Paste your actual Render URL (e.g. `https://sipmap.onrender.com/`)
+4. Save
+
+GitHub sends a `ping` event. Check Render logs (Events tab) for a 200 response.
+
+---
+
+## STEP 7 — Install the App
 
 Visit:
 
@@ -176,13 +177,13 @@ Visit:
 https://github.com/apps/sipmap
 ```
 
-(The page should now resolve — no more 404!)
+(The page now resolves!)
 
-Click **Install** → pick a repo where you have admin rights.
+Click **Install** → pick a test repo.
 
 ---
 
-## STEP 7 — Test it works
+## STEP 8 — Test
 
 Open any issue or PR in that repo. Comment:
 
@@ -190,56 +191,46 @@ Open any issue or PR in that repo. Comment:
 :sipmap /help
 ```
 
-Within ~10 seconds, the bot replies with a list of all commands. 🎉
+Within ~10 seconds, the bot replies. 🎉
 
 ---
 
 ## ✅ DONE
 
-Your bot is live at `https://sipmap.fly.dev/` and installable from `https://github.com/apps/sipmap`.
+Your bot is live and installable.
 
-Share that install URL anywhere — anyone can install it.
+| Item | Value |
+|---|---|
+| Bot URL | `https://sipmap.onrender.com/` |
+| Install page | `https://github.com/apps/sipmap` |
+| Cost | **$0** |
 
 ---
 
 ## What if something goes wrong?
 
-### Step 4 — `fly auth signup` opens browser but nothing happens
+### "Build failed" in Render
 
-The browser OAuth may have failed. Try `fly auth login` instead (uses GitHub OAuth, faster).
+Click the failed build → see the log. Common causes:
+- `npm ci` failed → check your `package.json` is valid
+- `node server.js` failed → check your env vars are set correctly
 
-### Step 4 — "App name already taken"
+### Bot responds with 500 errors
 
-The name `sipmap` on Fly.io is taken. Type a different name when prompted (e.g. `sipmap-bot`). Your webhook URL becomes `https://sipmap-bot.fly.dev/`.
+Click **Logs** in Render. Look for stack traces. Most common cause: `PRIVATE_KEY` has actual newlines instead of `\n` escapes. Re-do step 4, variable 3.
 
-### Step 4 — "Image build failed"
+### First webhook after 15 min takes ~30 seconds
 
-Run `fly logs --app sipmap` to see the error. Most common cause: missing PEM file path. Verify the file exists at the path you gave.
+Render's free tier sleeps after 15 min idle. Either:
+- Use UptimeRobot (free) to ping the URL every 5 min
+- Or upgrade to Render's $7/mo plan (no sleep)
 
-### Step 5 — Webhook ping shows red X
+### "I want to start over"
 
-Run `fly logs --app sipmap` on your terminal. Look for the request. Most common causes:
-- Wrong webhook URL (typo)
-- Wrong webhook secret (must match what's in your Fly secrets AND the GitHub App settings)
-- App still starting up (wait 30 seconds, then click "Redeliver" on the failed event)
+1. https://dashboard.render.com → click **sipmap** → Settings → Delete Web Service
+2. https://github.com/settings/apps → click your App → bottom of General → Delete app
 
-### Step 7 — Bot doesn't reply
-
-Run `fly logs --app sipmap` and look for errors. Common causes:
-- Bot received the event but failed to fetch `.sipmap.yml` (default behavior — fine, should still work)
-- Permission error from GitHub (check your App's permissions in step 3)
-
-### I want to start over
-
-Run:
-
-```bash
-fly destroy --app sipmap
-```
-
-Then delete the App at https://github.com/settings/apps → click your App → bottom of General tab → **Delete app**.
-
-Then start again from step 1.
+Then start over from step 1.
 
 ---
 
@@ -247,14 +238,15 @@ Then start again from step 1.
 
 | Step | Time |
 |---|---|
-| 1. Install flyctl | 1 min |
-| 2. Fly.io signup | 2 min |
-| 3. Register GitHub App | 3 min |
-| 4. Deploy to Fly.io | 3 min |
-| 5. Wire webhook URL | 1 min |
-| 6. Install the App | 30 sec |
-| 7. Test | 30 sec |
+| 1. Render signup | 1 min |
+| 2. Register GitHub App | 3 min |
+| 3. Create Render service | 2 min |
+| 4. Set env vars | 2 min |
+| 5. Verify alive | 30 sec |
+| 6. Update webhook URL | 30 sec |
+| 7. Install App | 30 sec |
+| 8. Test | 30 sec |
 
 ## Total cost: **$0**
 
-(Fly.io free tier: 3 shared VMs, 256 MB RAM each, no sleep.)
+(Render free tier: 750 hours/mo, sleeps after 15 min idle.)

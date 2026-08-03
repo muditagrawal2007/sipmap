@@ -10,13 +10,13 @@ set -e
 echo ""
 echo "🚀 Opening 3 tabs in your browser..."
 echo ""
-echo "TAB 1 (Fly.io signup) — Sign up, then come back here."
-echo "TAB 2 (GitHub App) — Click Create, copy App ID + .pem key, then come back."
+echo "TAB 1 (Render signup) — Sign up with GitHub, no credit card needed."
+echo "TAB 2 (GitHub App) — Click Create, copy App ID + .pem key."
 echo "TAB 3 (GO-LIVE guide) — Read alongside so you know what to do."
 echo ""
 
-# Open Fly.io signup
-open "https://fly.io/app/sign-up" 2>/dev/null || xdg-open "https://fly.io/app/sign-up" 2>/dev/null || echo "Open https://fly.io/app/sign-up in your browser"
+# Open Render signup
+open "https://render.com/register" 2>/dev/null || xdg-open "https://render.com/register" 2>/dev/null || echo "Open https://render.com/register in your browser"
 
 sleep 1
 
@@ -37,13 +37,14 @@ cat <<'EOF'
 =========================================================
 TABS OPENED. Now do this:
 
-In Tab 1 (Fly.io):
-  - Sign up with email + password
-  - Verify your email
-  - When you see "Welcome to Fly.io", you're done with this tab
+In Tab 1 (Render):
+  - Click "Sign up with GitHub"
+  - Authorize Render
+  - You're done with this tab
 
 In Tab 2 (GitHub App):
-  - The form is pre-filled. Just click the green "Create" button
+  - The form is pre-filled. Webhook URL is set to https://sipmap.onrender.com/
+  - Just click the green "Create" button
   - On the App settings page, scroll to "Webhook secret" and paste:
         sipmap-shared-secret-2026
   - Scroll to "Private keys", click "Generate a private key"
@@ -51,26 +52,22 @@ In Tab 2 (GitHub App):
         /Users/muditagrawal/Documents/Developer/sipmap/app-private-key.pem
   - Note the "App ID" number at the top (something like 987654)
 
-After both tabs are done, run ONE command:
+After both tabs are done, in your terminal run:
 
-  APP_ID=YOUR_NUMBER_HERE \
-  WEBHOOK_SECRET=sipmap-shared-secret-2026 \
-  PEM_PATH=./app-private-key.pem \
-  scripts/deploy-fly-auto.sh
+  mv ~/Downloads/muditagrawal2007-sipmap.*.pem ./app-private-key.pem 2>/dev/null || true
 
-(Replace YOUR_NUMBER_HERE with the App ID from Tab 2.)
+Then in your browser:
+  - Open https://dashboard.render.com/blueprints
+  - Click "New Blueprint Instance"
+  - Select the muditagrawal2007/sipmap repo
+  - Click "Apply"
+  - Wait ~2 minutes for the build
 
-That single command will:
-  ✓ Log you into Fly.io (browser may pop up — just click "Authorize")
-  ✓ Create the sipmap app on Fly.io
-  ✓ Set your 3 secrets
-  ✓ Deploy the bot
-  ✓ Print your webhook URL when done
-
-Then ONE more thing — go back to Tab 2 (GitHub App):
-  - Click "Webhook" in the left sidebar
-  - Paste the URL the script printed (looks like https://sipmap.fly.dev/)
-  - Save
+Then in Render dashboard → sipmap service → Environment:
+  - APP_ID = (paste your App ID number)
+  - WEBHOOK_SECRET = sipmap-shared-secret-2026
+  - PRIVATE_KEY = (run this in terminal first, then paste output):
+        cat app-private-key.pem | sed ':a;N;$!ba;s/\n/\\n/g'
 
 DONE! Visit https://github.com/apps/sipmap → Install → Test.
 

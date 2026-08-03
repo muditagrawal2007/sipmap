@@ -1,0 +1,43 @@
+# sipmap — Render Blueprint
+# This file makes sipmap a one-click deploy on Render.
+# After connecting your GitHub repo to Render, Render reads this file and creates
+# the web service automatically. You only need to set 3 env vars in the dashboard.
+#
+# How to use:
+#   1. Sign up at https://render.com (free, NO credit card required)
+#   2. Dashboard → Blueprints → "New Blueprint Instance"
+#   3. Connect your GitHub account if not already
+#   4. Select the muditagrawal2007/sipmap repo
+#   5. Click "Apply"
+#   6. Render creates the service. Set the 3 env vars (APP_ID, WEBHOOK_SECRET, PRIVATE_KEY)
+#   7. Render builds + deploys automatically
+
+services:
+  - type: web
+    name: sipmap
+    runtime: node
+    plan: free
+    branch: main
+    buildCommand: npm ci --omit=dev --no-audit --no-fund
+    startCommand: node server.js
+    healthCheckPath: /
+    autoDeploy: true
+    envVars:
+      - key: NODE_VERSION
+        value: 20
+      - key: PORT
+        value: "3000"
+      - key: LOG_LEVEL
+        value: info
+      # ===== Required: set these in the Render dashboard =====
+      # - APP_ID: numeric App ID from your GitHub App settings
+      # - WEBHOOK_SECRET: matching secret (must match GitHub App webhook config)
+      # - PRIVATE_KEY: contents of the .pem private key, with \n escaped as literal backslash-n
+      # Example PRIVATE_KEY:
+      #   PRIVATE_KEY=-----BEGIN RSA PRIVATE KEY-----\nMIIEow...\n-----END RSA PRIVATE KEY-----
+      - key: APP_ID
+        sync: false
+      - key: WEBHOOK_SECRET
+        sync: false
+      - key: PRIVATE_KEY
+        sync: false

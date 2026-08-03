@@ -52,24 +52,19 @@ Org owners can install once for all current and future repos from the same App p
 
 ## 🛠️ Setup (for the owner)
 
-**→ Follow [`docs/GO-LIVE.md`](./docs/GO-LIVE.md) for a step-by-step guide that takes ~10 minutes.**
+**→ Follow [`docs/GO-LIVE.md`](./docs/GO-LIVE.md) for a step-by-step guide (~10 min).**
 
-Quick version:
+The easiest path is **Render** (free, no credit card, GitHub-integrated):
 
-1. **Register the GitHub App** (one-time, browser): https://github.com/settings/apps/new?manifest=https://raw.githubusercontent.com/muditagrawal2007/sipmap/main/app.yml
-2. **Install `flyctl`** (one-time): `brew install flyctl`
-3. **Sign up to Fly.io** (one-time, browser): `fly auth signup`
-4. **Deploy**:
-   ```bash
-   APP_ID=<your App ID> \
-   WEBHOOK_SECRET=<your secret> \
-   PEM_PATH=./app-private-key.pem \
-   scripts/deploy-fly-auto.sh
-   ```
-5. **Set the webhook URL** in your GitHub App to the Fly URL the script prints.
-6. **Test** — install into one repo, comment `:sipmap /help`, verify the bot responds.
+1. Sign up at https://render.com/register (free, **no credit card**)
+2. Register the GitHub App: https://github.com/settings/apps/new?manifest=https://raw.githubusercontent.com/muditagrawal2007/sipmap/main/app.yml
+3. Create a Render Blueprint from this repo
+4. Set 3 env vars in Render's dashboard (APP_ID, WEBHOOK_SECRET, PRIVATE_KEY)
+5. Render builds + deploys automatically
 
 Total cost: **$0**.
+
+Want no-sleep? Use [Fly.io](https://fly.io) instead — see [`docs/self-host.md`](./docs/self-host.md).
 
 ## 📋 Commands (cheat sheet)
 
@@ -116,19 +111,13 @@ See [`docs/cost.md`](./docs/cost.md) for a full zero-cost breakdown.
 
 The bot is a standard [Probot](https://probot.github.io/) app. Self-host anywhere:
 
-- **Fly.io (recommended)**: see [`docs/self-host.md`](./docs/self-host.md) (free, no sleep, $0)
-- **Render**: see [`docs/self-host.md`](./docs/self-host.md) (one-click GitHub deploy, sleeps on free tier)
+- **Render (easiest)**: see [`docs/GO-LIVE.md`](./docs/GO-LIVE.md) — GitHub-integrated, free, **no credit card**, sleeps after 15 min on free tier
+- **Fly.io (no sleep)**: see [`docs/self-host.md`](./docs/self-host.md) — free, no sleep, requires credit card
 - **Docker / local + Cloudflare Tunnel**: see [`docs/self-host.md`](./docs/self-host.md)
 
 > ⚠️ Glitch is no longer a viable host. See [`docs/glitch.md`](./docs/glitch.md) for historical context.
 
-One-command deploy to Fly.io:
-
-```bash
-brew install flyctl
-fly auth signup
-scripts/deploy-fly.sh
-```
+One-click Render deploy: [`docs/GO-LIVE.md`](./docs/GO-LIVE.md)
 
 ## 🧪 Development
 

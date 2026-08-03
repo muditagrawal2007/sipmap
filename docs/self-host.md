@@ -2,9 +2,77 @@
 
 sipmap runs anywhere Node.js 18+ runs. This guide covers the **recommended hosts** in order of preference.
 
-> **Heads up:** [Glitch is no longer a viable host](https://blog.glitch.com) for new apps — its editing platform has been discontinued. Use **Fly.io** (recommended), **Render**, or run locally.
+> **Heads up:** [Glitch is no longer a viable host](https://blog.glitch.com) for new apps. Use **Render** (easiest, no credit card), **Fly.io** (no sleep, requires credit card), or run locally.
 
-## Option 1 — Fly.io (recommended, free, no sleep)
+## Quick path: see [`docs/GO-LIVE.md`](./GO-LIVE.md)
+
+The single linear guide to make `https://github.com/apps/sipmap` work, with Render as the primary host.
+
+---
+
+## Option 1 — Render (easiest, free, no credit card)
+
+Render is the **easiest** deploy path:
+- No CLI needed
+- **No credit card required** for free tier signup
+- GitHub-integrated: connects to your repo, builds on every push
+- One-click blueprint via `render.yaml` (already in this repo)
+
+**Free tier:** 750 hours/month, sleeps after 15 min idle.
+
+### One-click via Blueprint (3 min)
+
+The repo includes a `render.yaml` blueprint. To use it:
+
+1. Sign up at https://render.com/register (free, no credit card)
+2. Visit https://dashboard.render.com/blueprints
+3. Click **New Blueprint Instance** → select `muditagrawal2007/sipmap`
+4. Click **Apply** — Render creates the service
+5. Set the 3 env vars in the dashboard (APP_ID, WEBHOOK_SECRET, PRIVATE_KEY)
+6. Render builds + deploys automatically (~2 min)
+
+Full walkthrough: [`docs/GO-LIVE.md`](./GO-LIVE.md).
+
+### Manual setup (no blueprint)
+
+1. https://render.com → **New +** → **Web Service**
+2. Connect `muditagrawal2007/sipmap` repo
+3. Configure:
+   - **Environment**: `Node`
+   - **Build Command**: `npm ci --omit=dev --no-audit --no-fund`
+   - **Start Command**: `node server.js`
+   - **Plan**: Free
+4. Add the 3 env vars (APP_ID, WEBHOOK_SECRET, PRIVATE_KEY — see below)
+5. Click **Create Web Service**
+
+Render builds and deploys. Your URL is `https://<service-name>.onrender.com/`.
+
+### Render operations cheatsheet
+
+```bash
+# Render has no CLI but everything is in the web dashboard:
+# https://dashboard.render.com/web/<service-id>
+# - Logs (live tail)
+# - Events (deploy history)
+# - Environment (edit env vars, redeploys on save)
+# - Shell (open a one-off shell into the running container)
+```
+
+### Cost details
+
+| Item | Free tier |
+|---|---|
+| Web service hours | 750 hrs/month (always-on for one service) |
+| RAM | 512 MB |
+| Sleep after idle | 15 minutes |
+| HTTPS | Auto (Let's Encrypt) |
+| Custom domain | Free |
+
+---
+
+## Option 2 — Fly.io (no sleep, free, requires credit card)
+
+Fly.io is the best option if you want **no sleep**. Same sipmap, no idle delay. **Cost: $0** within free tier, but Fly requires a credit card on signup.
 
 Fly.io gives sipmap a free VM with 256 MB RAM and no sleep on idle. **Cost: $0** within free tier.
 
