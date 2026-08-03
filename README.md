@@ -57,7 +57,7 @@ Org owners can install once for all current and future repos from the same App p
 The easiest path is **Render** (free, no credit card, GitHub-integrated):
 
 1. Sign up at https://render.com/register (free, **no credit card**)
-2. Register the GitHub App: https://github.com/settings/apps/new?manifest=https://raw.githubusercontent.com/muditagrawal2007/sipmap/main/app.yml
+2. Register the GitHub App: https://github.com/settings/apps/new?manifest=https://raw.githubusercontent.com/muditagrawal2007/sipmap/main/app.json
 3. Create a Render Blueprint from this repo
 4. Set 3 env vars in Render's dashboard (APP_ID, WEBHOOK_SECRET, PRIVATE_KEY)
 5. Render builds + deploys automatically

@@ -13,10 +13,10 @@ The repo ships an `app.yml` manifest with all the right permissions, events, and
 1. Visit this URL in your browser:
 
    ```
-   https://github.com/settings/apps/new?manifest=https://raw.githubusercontent.com/muditagrawal2007/sipmap/main/app.yml
+   https://github.com/settings/apps/new?manifest=https://raw.githubusercontent.com/muditagrawal2007/sipmap/main/app.json
    ```
 
-   *(Replace `muditagrawal2007/sipmap` with your fork's path if you've forked it.)*
+   *(Replace `muditagrawal2007/sipmap` with your fork's path if you've forked it. The repo also includes `app.yml` as a human-readable version.)*
 
 2. GitHub will load the manifest and show a preview. Review the settings:
 

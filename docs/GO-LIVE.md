@@ -38,16 +38,12 @@ You'll land on the Render dashboard.
 Open this URL **in your browser** (logged in as `muditagrawal2007`):
 
 ```
-https://github.com/settings/apps/new?manifest=https://raw.githubusercontent.com/muditagrawal2007/sipmap/main/app.yml
+https://github.com/settings/apps/new?manifest=https://raw.githubusercontent.com/muditagrawal2007/sipmap/main/app.json
 ```
 
-You'll see a form pre-filled with everything. Just:
+You'll see a form **pre-filled** with the bot's name, homepage URL, permissions, events, and webhook URL. Everything is already correct. Just:
 
-1. **Webhook URL**: paste this EXACT value (Render will host your bot here):
-   ```
-   https://sipmap.onrender.com/
-   ```
-   (Don't worry — even if Render gives you a different name, you can fix this later.)
+1. **Verify the Webhook URL** is `https://sipmap.onrender.com/` (you can change this later if needed)
 2. Click the green **Create** button
 
 You're taken to the App settings page. **Do these 3 things:**

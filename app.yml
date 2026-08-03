@@ -1,13 +1,7 @@
-# GitHub App Manifest for sipmap
-# This file is PUBLIC-SAFE — it contains NO secrets.
-# Anyone can use this URL to register their own copy of the App:
-#   https://github.com/settings/apps/new?manifest=...
-# (replace ... with the URL of this raw file on github)
-
 name: sipmap
 url: https://github.com/muditagrawal2007/sipmap
 hook_attributes:
-  url: https://REPLACE_WITH_YOUR_HOST/sipmap
+  url: https://sipmap.onrender.com/
   active: true
 public: true
 default_events:
@@ -24,5 +18,3 @@ default_permissions:
   pull_requests: write
   checks: read
   metadata: read
-# Narrow permissions only. We do NOT request: email, members, actions (write), admin, or any other write
-# beyond what's needed to post comments, labels, reactions, and assign reviewers.

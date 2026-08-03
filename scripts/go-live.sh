@@ -21,9 +21,9 @@ open "https://render.com/register" 2>/dev/null || xdg-open "https://render.com/r
 sleep 1
 
 # Open GitHub App manifest registration
-open "https://github.com/settings/apps/new?manifest=https://raw.githubusercontent.com/muditagrawal2007/sipmap/main/app.yml" 2>/dev/null \
-  || xdg-open "https://github.com/settings/apps/new?manifest=https://raw.githubusercontent.com/muditagrawal2007/sipmap/main/app.yml" 2>/dev/null \
-  || echo "Open https://github.com/settings/apps/new?manifest=https://raw.githubusercontent.com/muditagrawal2007/sipmap/main/app.yml in your browser"
+open "https://github.com/settings/apps/new?manifest=https://raw.githubusercontent.com/muditagrawal2007/sipmap/main/app.json" 2>/dev/null \
+  || xdg-open "https://github.com/settings/apps/new?manifest=https://raw.githubusercontent.com/muditagrawal2007/sipmap/main/app.json" 2>/dev/null \
+  || echo "Open https://github.com/settings/apps/new?manifest=https://raw.githubusercontent.com/muditagrawal2007/sipmap/main/app.json in your browser"
 
 sleep 1
 

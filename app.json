@@ -1,0 +1,25 @@
+{
+  "name": "sipmap",
+  "url": "https://github.com/muditagrawal2007/sipmap",
+  "hook_attributes": {
+    "url": "https://sipmap.onrender.com/",
+    "active": true
+  },
+  "public": true,
+  "default_events": [
+    "issue_comment",
+    "issues",
+    "pull_request",
+    "pull_request_review",
+    "pull_request_review_comment",
+    "check_run",
+    "check_suite"
+  ],
+  "default_permissions": {
+    "contents": "read",
+    "issues": "write",
+    "pull_requests": "write",
+    "checks": "read",
+    "metadata": "read"
+  }
+}
