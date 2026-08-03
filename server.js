@@ -26,7 +26,7 @@ const probot = new Probot({
   }),
 });
 
-const middleware = createNodeMiddleware(appFn, { probot, webhooksPath: '/' });
+const middleware = createNodeMiddleware(appFn, { probot, webhooksPath: '/api/github/webhooks' });
 
 const port = Number(process.env.PORT) || 3000;
 const host = process.env.HOST || '0.0.0.0';
@@ -41,5 +41,5 @@ const server = createServer((req, res) => {
 
 server.listen(port, host, () => {
   console.log(`🤖 sipmap listening on http://${host}:${port}`);
-  console.log(`   Webhook URL: http://${host}:${port}/`);
+  console.log(`   Webhook URL: http://${host}:${port}/api/github/webhooks`);
 });
