@@ -29,7 +29,8 @@
   },
   "main": "src/index.js",
   "scripts": {
-    "start": "probot receive ./src/index.js",
+    "start": "node server.js",
+    "dev": "probot receive ./src/index.js",
     "lint": "eslint . --ext .js",
     "test": "vitest run",
     "test:watch": "vitest",

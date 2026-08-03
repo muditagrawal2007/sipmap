@@ -1,7 +1,6 @@
 // sipmap — created by MUDIT AGRAWAL (muditagrawal2007) — MIT licensed
 // Probot entry point — wires commands, encouragements, and automations.
 
-const { Probot } = require('probot');
 const commands = require('./commands');
 const encouragements = require('./encouragements');
 const automations = require('./automations');
@@ -71,17 +70,3 @@ module.exports = (app) => {
     });
   }
 };
-
-module.exports.default = module.exports;
-
-// Allow `probot receive ./src/index.js` for local dev.
-if (require.main === module) {
-  require('dotenv').config?.();
-  const probot = new Probot({
-    id: Number(process.env.APP_ID) || 1,
-    cert: process.env.PRIVATE_KEY || '',
-    secret: process.env.WEBHOOK_SECRET || 'development',
-  });
-  probot.load(module.exports);
-  probot.start();
-}

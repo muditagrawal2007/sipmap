@@ -27,7 +27,7 @@ sipmap is a GitHub App you install into any repo. Once installed, it reacts to c
 - 🚫 **Zero Actions consumption** — never triggers GitHub Actions workflows; uses no Actions minutes
 - 🛡️ **Narrow permissions** — only the minimum needed: contents read, issues write, PRs write, checks read
 
-## 🚀 Install
+## 🚀 Install (for users)
 
 ### Option 1 — Per-repo install (60 seconds)
 
@@ -38,7 +38,7 @@ sipmap is a GitHub App you install into any repo. Once installed, it reacts to c
 
 ### Option 2 — Share via CONTRIBUTING.md
 
-Add this to your `CONTRIBUTING.md` so contributors can install sipmap in their own repos:
+Add this to your repo's `CONTRIBUTING.md` so contributors can install sipmap in their own repos:
 
 ```markdown
 ## 💬 Use sipmap in your own repos
@@ -49,6 +49,17 @@ sipmap is free & open-source. Install it in your own repos:
 ### Option 3 — Org-wide install
 
 Org owners can install once for all current and future repos from the same App page.
+
+## 🛠️ Setup (for the owner)
+
+To make `https://github.com/apps/sipmap` go live, you (the owner) must:
+
+1. **Register the GitHub App** — see [`docs/app-registration.md`](./docs/app-registration.md)
+2. **Host the bot** — see [`docs/glitch.md`](./docs/glitch.md) (free) or [`docs/self-host.md`](./docs/self-host.md) (Fly/Render/Docker)
+3. **Set the webhook URL** in the App's settings to your hosted bot's URL
+4. **Test** — install into one repo, comment `:sipmap /help`, verify the bot responds
+
+Total cost: **$0**.
 
 ## 📋 Commands (cheat sheet)
 
@@ -111,14 +122,15 @@ npm run verify:all   # confirms zero-cost + zero Actions triggers
 ## 📚 Documentation
 
 - [`docs/install.md`](./docs/install.md) — installation guide
+- [`docs/app-registration.md`](./docs/app-registration.md) — owner: register the GitHub App
+- [`docs/glitch.md`](./docs/glitch.md) — owner: Glitch one-click deploy
+- [`docs/self-host.md`](./docs/self-host.md) — owner: Fly.io / Render / Docker
 - [`docs/commands.md`](./docs/commands.md) — full command reference
 - [`docs/encouragements.md`](./docs/encouragements.md) — encouragement triggers
 - [`docs/config.md`](./docs/config.md) — `.sipmap.yml` reference
 - [`docs/security.md`](./docs/security.md) — privacy & security model
 - [`docs/cost.md`](./docs/cost.md) — zero-cost breakdown
 - [`docs/testing.md`](./docs/testing.md) — how to run & extend tests
-- [`docs/self-host.md`](./docs/self-host.md) — self-hosting guide
-- [`docs/glitch.md`](./docs/glitch.md) — Glitch one-click deploy
 - [`docs/usage-stats.md`](./docs/usage-stats.md) — owner-only stats guide
 
 ## 👤 Author

@@ -1,0 +1,12 @@
+# Files Glitch should ignore (similar to .gitignore but Glitch-specific)
+# Glitch respects .gitignore but adds its own
+.gatsby-cache
+.cache
+public
+node_modules
+.DS_Store
+*.log
+coverage
+.env
+.env.local
+private-key.pem

@@ -1,0 +1,15 @@
+{
+  "projectType": "glitch",
+  "displayName": "sipmap",
+  "description": "Free, open-source GitHub App bot for process testing, maintainer notifications, and contributor encouragement.",
+  "language": "node",
+  "start": "node server.js",
+  "engines": {
+    "node": "20"
+  },
+  "install": "npm install --no-audit --no-fund",
+  "glitch-helper": {
+    "remixUrl": "https://glitch.com/edit/#!remix/<your-glitch-project-slug>",
+    "notes": "Fork this repo, then update the remixUrl above once your Glitch project is created."
+  }
+}
