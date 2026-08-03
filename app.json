@@ -2,7 +2,7 @@
   "name": "sipmap",
   "url": "https://github.com/muditagrawal2007/sipmap",
   "hook_attributes": {
-    "url": "https://sipmap-iuct.onrender.com/",
+    "url": "https://sipmap-iuct.onrender.com/api/github/webhooks",
     "active": true
   },
   "public": true,
