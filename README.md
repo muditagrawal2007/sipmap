@@ -119,12 +119,23 @@ npm run verify:all   # confirms zero-cost + zero Actions triggers
 - [`docs/testing.md`](./docs/testing.md) — how to run & extend tests
 - [`docs/self-host.md`](./docs/self-host.md) — self-hosting guide
 - [`docs/glitch.md`](./docs/glitch.md) — Glitch one-click deploy
+- [`docs/usage-stats.md`](./docs/usage-stats.md) — owner-only stats guide
 
 ## 👤 Author
 
 **MUDIT AGRAWAL** ([@muditagrawal2007](https://github.com/muditagrawal2007)) — created in 2026.
 
 This repository is owned and copyright-protected by MUDIT AGRAWAL. `.github/CODEOWNERS` requires review on every PR, and the LICENSE copyright line preserves attribution permanently.
+
+## 📈 Usage stats (owner-only)
+
+To see how many people installed sipmap, how many cloned the repo, and where the traffic comes from, see [`docs/usage-stats.md`](./docs/usage-stats.md). The script refuses to run unless you're authenticated as `muditagrawal2007` (or whatever owner you set via `SIPMAP_OWNER`).
+
+```bash
+scripts/fetch-stats.sh
+```
+
+sipmap itself does **no tracking** — every metric comes from GitHub's owner-visible APIs.
 
 ## 📄 License
 
