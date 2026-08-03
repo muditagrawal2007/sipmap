@@ -52,17 +52,22 @@ Org owners can install once for all current and future repos from the same App p
 
 ## 🛠️ Setup (for the owner)
 
-To make `https://github.com/apps/sipmap` go live, you (the owner) must:
+**→ Follow [`docs/GO-LIVE.md`](./docs/GO-LIVE.md) for a step-by-step guide that takes ~10 minutes.**
 
-1. **Register the GitHub App** — see [`docs/app-registration.md`](./docs/app-registration.md)
-2. **Host the bot on Fly.io (recommended, free, no sleep)**:
+Quick version:
+
+1. **Register the GitHub App** (one-time, browser): https://github.com/settings/apps/new?manifest=https://raw.githubusercontent.com/muditagrawal2007/sipmap/main/app.yml
+2. **Install `flyctl`** (one-time): `brew install flyctl`
+3. **Sign up to Fly.io** (one-time, browser): `fly auth signup`
+4. **Deploy**:
    ```bash
-   brew install flyctl          # one-time
-   fly auth signup              # one-time, browser OAuth
-   scripts/deploy-fly.sh        # interactive, ~5 min
+   APP_ID=<your App ID> \
+   WEBHOOK_SECRET=<your secret> \
+   PEM_PATH=./app-private-key.pem \
+   scripts/deploy-fly-auto.sh
    ```
-3. **Set the webhook URL** in the App's settings to your hosted bot's URL (e.g. `https://sipmap.fly.dev/`)
-4. **Test** — install into one repo, comment `:sipmap /help`, verify the bot responds
+5. **Set the webhook URL** in your GitHub App to the Fly URL the script prints.
+6. **Test** — install into one repo, comment `:sipmap /help`, verify the bot responds.
 
 Total cost: **$0**.
 
@@ -136,9 +141,13 @@ npm run verify:all   # confirms zero-cost + zero Actions triggers
 
 ## 📚 Documentation
 
-- [`docs/install.md`](./docs/install.md) — installation guide
+**Start here:**
+- **[`docs/GO-LIVE.md`](./docs/GO-LIVE.md)** — step-by-step: make `https://github.com/apps/sipmap` work
+
+**Reference:**
+- [`docs/install.md`](./docs/install.md) — installation guide for users
 - [`docs/app-registration.md`](./docs/app-registration.md) — owner: register the GitHub App
-- [`docs/self-host.md`](./docs/self-host.md) — owner: Fly.io (recommended) / Render / Docker
+- [`docs/self-host.md`](./docs/self-host.md) — owner: Fly.io (recommended) / Render / Docker / Cloudflare Tunnel
 - [`docs/glitch.md`](./docs/glitch.md) — Glitch (discontinued, kept for reference)
 - [`docs/commands.md`](./docs/commands.md) — full command reference
 - [`docs/encouragements.md`](./docs/encouragements.md) — encouragement triggers
