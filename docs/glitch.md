@@ -1,6 +1,14 @@
-# Glitch one-click deploy
+# Glitch (no longer a viable host)
 
-Glitch is the easiest free hosting for sipmap. **Cost: $0** (free tier + free UptimeRobot keep-alive).
+> ⚠️ **Glitch discontinued its editing platform** in 2026. The site now redirects to `blog.glitch.com`. This guide is **kept for historical reference** and for users who happen to have an existing Glitch app.
+>
+> For new deployments, use **Fly.io** (free, no sleep). See [`docs/self-host.md`](./self-host.md) → "Option 1 — Fly.io".
+
+---
+
+# Glitch (kept for historical reference)
+
+Glitch used to be the easiest free hosting for sipmap. **Cost: $0** (free tier + free UptimeRobot keep-alive).
 
 ## One-line summary
 
@@ -20,21 +28,15 @@ Before starting, you need:
    - `APP_ID` (numeric)
    - A `.pem` private key file
    - A `WEBHOOK_SECRET` (you set this yourself)
-2. **A Glitch account.** Sign up at https://glitch.com (free).
+2. **An existing Glitch app.** Glitch no longer supports new app creation.
 
-## Steps
+## If you still have a working Glitch project
 
-### 1. Remix on Glitch
+### Steps
 
-Click: **`https://glitch.com/edit/#!remix/sipmap-glitch-starter`**
+#### 1. Configure secrets
 
-*(You — the owner — need to publish this starter project once on Glitch. Until then, use the "Import from GitHub" option: visit https://glitch.com/edit/#!/import/github/muditagrawal2007/sipmap — Glitch will create a new project from the GitHub repo.)*
-
-Glitch will create your own copy and start installing deps automatically. Takes ~1 minute.
-
-### 2. Add your secrets
-
-In the Glitch editor's left sidebar, click **`.env`**. Fill in:
+In your Glitch project, click **`.env`** and fill in:
 
 ```bash
 APP_ID=<your App numeric ID, e.g. 123456>
@@ -43,11 +45,11 @@ PRIVATE_KEY="<paste your .pem file contents here. Keep the quotes and replace li
 PORT=3000
 ```
 
-Click **Save** — Glitch auto-reboots your app.
+Click **Save** — Glitch auto-reboots.
 
-### 3. Get your webhook URL
+#### 2. Get your webhook URL
 
-Click **Share** (top-right in Glitch) → **Live App**. Copy the URL, e.g.:
+Click **Share** → **Live App**. Copy the URL, e.g.:
 
 ```
 https://my-sipmap.glitch.me
@@ -59,31 +61,28 @@ Test it: visit the URL in your browser. You should see:
 sipmap is running.
 ```
 
-### 4. Update your GitHub App
+#### 3. Update your GitHub App
 
 Visit https://github.com/settings/apps → click your App → **Webhook** section:
 
 - **Webhook URL**: `https://my-sipmap.glitch.me/`
-- **Webhook secret**: paste the same `WEBHOOK_SECRET` you used in step 2
+- **Webhook secret**: paste the same `WEBHOOK_SECRET` you used in step 1
 - Enable **SSL verification** ✓
 
-Save. GitHub will send a `ping` event to verify — your Glitch logs should show a 200 response.
+#### 4. Keep it awake (free)
 
-### 5. Keep it awake (free)
-
-Glitch's free tier sleeps apps after 5 minutes of inactivity, causing ~30s delay on the first webhook after sleep. To prevent this, use **UptimeRobot** (free):
+Glitch's free tier sleeps apps after 5 minutes of inactivity, causing ~30s delay on the first webhook after sleep. Use **UptimeRobot** (free) to keep the app alive:
 
 1. Sign up at https://uptimerobot.com (free)
 2. Click **+ Add New Monitor**
-3. **Monitor Type**: HTTP(s)
-4. **Friendly Name**: `sipmap keep-alive`
-5. **URL**: `https://my-sipmap.glitch.me/`
-6. **Monitoring Interval**: 5 minutes
-7. Save
+3. Configure:
+   - **Monitor Type**: HTTP(s)
+   - **Friendly Name**: `sipmap keep-alive`
+   - **URL**: `https://my-sipmap.glitch.me/`
+   - **Monitoring Interval**: 5 minutes
+4. Save
 
-Now webhooks are always instant.
-
-### 6. Smoke test
+#### 5. Smoke test
 
 Open any issue or PR in a repo where the App is installed and comment:
 
@@ -91,45 +90,38 @@ Open any issue or PR in a repo where the App is installed and comment:
 :sipmap /help
 ```
 
-Within ~10 seconds, the bot replies with the full command list. 🎉
+Within ~10 seconds, the bot replies with the full command list.
 
-## Cost summary
+---
 
-| Item | Cost |
-|---|---|
-| Glitch hosting (free tier) | $0 |
-| UptimeRobot free tier | $0 |
-| Domain (not required) | $0 |
-| **Total** | **$0** |
+## ⚠️ Important
 
-## Caveats
+**Glitch is no longer a working host for new deployments.** This page is kept for users who happen to have an existing project.
 
-- **Public by default.** Glitch makes new projects visible. Make your project private: Project Settings → "This project is private" → toggle on.
-- **1024 MB RAM limit.** Plenty for sipmap (uses ~80 MB).
-- **Sleeps after 5 min idle** without UptimeRobot.
-- **Custom domain** possible but optional (Glitch free tier supports `glitch.me` subdomains for free).
+For new deployments, use:
+- **Fly.io** (recommended, free, no sleep) — [`docs/self-host.md`](./self-host.md) → Option 1
+- **Render** (one-click GitHub deploy) — [`docs/self-host.md`](./docs/self-host.md) → Option 2
+- **Cloudflare Tunnel** (run locally with free public URL) — [`docs/self-host.md`](./docs/self-host.md) → Option 3
 
-## Troubleshooting
+If you don't have an existing Glitch project, **do not attempt to create one**. Use Fly.io or Render instead.
 
-### Bot doesn't respond to commands
+---
 
-1. Check Glitch logs — any errors?
-2. Confirm the webhook URL in your GitHub App matches your live Glitch URL exactly (including trailing `/`).
-3. Confirm `WEBHOOK_SECRET` matches between `.env` and GitHub App settings.
-4. Look at the GitHub App's **Advanced → Recent deliveries** — failed deliveries show error details.
+## One-command deploy for existing Glitch projects
 
-### "Invalid PEM" error on startup
+If you already have a working Glitch project, use the existing one. The repo includes:
 
-The `PRIVATE_KEY` env var must contain literal `\n` (not actual newlines) when set in Glitch's `.env` file. Glitch's `.env` is a UI form — paste with `\n` literal:
-
-```
-PRIVATE_KEY="-----BEGIN RSA PRIVATE KEY-----\nMIIEowIBAAKCAQ...\n-----END RSA PRIVATE KEY-----"
+```bash
+npm install
+cp .env.example .env
+# Fill in APP_ID, WEBHOOK_SECRET, PRIVATE_KEY
+npm start
 ```
 
-### Slow first response after sleep
+This works **exactly the same way** as on any other host, including:
+- ✅ Fly.io
+- ✅ Render
+- ✅ Your machine + Cloudflare Tunnel
+- ✅ Your existing Glitch project (if you have one)
 
-Set up UptimeRobot per step 5 above.
-
-## Alternative: Fly.io (no sleep, also free)
-
-If you don't want the sleep caveat, see [`docs/self-host.md`](./self-host.md) for Fly.io or Render deployment.
+The repo is **completely host-agnostic**. The `Dockerfile`, `server.js`, and all other files work on any modern Node.js host.

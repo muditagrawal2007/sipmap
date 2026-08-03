@@ -55,8 +55,13 @@ Org owners can install once for all current and future repos from the same App p
 To make `https://github.com/apps/sipmap` go live, you (the owner) must:
 
 1. **Register the GitHub App** — see [`docs/app-registration.md`](./docs/app-registration.md)
-2. **Host the bot** — see [`docs/glitch.md`](./docs/glitch.md) (free) or [`docs/self-host.md`](./docs/self-host.md) (Fly/Render/Docker)
-3. **Set the webhook URL** in the App's settings to your hosted bot's URL
+2. **Host the bot on Fly.io (recommended, free, no sleep)**:
+   ```bash
+   brew install flyctl          # one-time
+   fly auth signup              # one-time, browser OAuth
+   scripts/deploy-fly.sh        # interactive, ~5 min
+   ```
+3. **Set the webhook URL** in the App's settings to your hosted bot's URL (e.g. `https://sipmap.fly.dev/`)
 4. **Test** — install into one repo, comment `:sipmap /help`, verify the bot responds
 
 Total cost: **$0**.
@@ -106,9 +111,19 @@ See [`docs/cost.md`](./docs/cost.md) for a full zero-cost breakdown.
 
 The bot is a standard [Probot](https://probot.github.io/) app. Self-host anywhere:
 
-- Glitch: see [`docs/glitch.md`](./docs/glitch.md) (free tier; uses UptimeRobot to stay awake)
-- Fly.io: see [`docs/self-host.md`](./docs/self-host.md) (free tier)
-- Docker / local: see [`docs/self-host.md`](./docs/self-host.md)
+- **Fly.io (recommended)**: see [`docs/self-host.md`](./docs/self-host.md) (free, no sleep, $0)
+- **Render**: see [`docs/self-host.md`](./docs/self-host.md) (one-click GitHub deploy, sleeps on free tier)
+- **Docker / local + Cloudflare Tunnel**: see [`docs/self-host.md`](./docs/self-host.md)
+
+> ⚠️ Glitch is no longer a viable host. See [`docs/glitch.md`](./docs/glitch.md) for historical context.
+
+One-command deploy to Fly.io:
+
+```bash
+brew install flyctl
+fly auth signup
+scripts/deploy-fly.sh
+```
 
 ## 🧪 Development
 
@@ -123,8 +138,8 @@ npm run verify:all   # confirms zero-cost + zero Actions triggers
 
 - [`docs/install.md`](./docs/install.md) — installation guide
 - [`docs/app-registration.md`](./docs/app-registration.md) — owner: register the GitHub App
-- [`docs/glitch.md`](./docs/glitch.md) — owner: Glitch one-click deploy
-- [`docs/self-host.md`](./docs/self-host.md) — owner: Fly.io / Render / Docker
+- [`docs/self-host.md`](./docs/self-host.md) — owner: Fly.io (recommended) / Render / Docker
+- [`docs/glitch.md`](./docs/glitch.md) — Glitch (discontinued, kept for reference)
 - [`docs/commands.md`](./docs/commands.md) — full command reference
 - [`docs/encouragements.md`](./docs/encouragements.md) — encouragement triggers
 - [`docs/config.md`](./docs/config.md) — `.sipmap.yml` reference

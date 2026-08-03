@@ -1,0 +1,44 @@
+# Files not needed in the Docker image
+node_modules
+npm-debug.log
+.git
+.gitignore
+.github
+.husky
+coverage
+.vscode
+.idea
+*.log
+.env
+.env.*
+!.env.example
+.env.example
+
+# Test files (not needed at runtime)
+test
+**/*.test.js
+**/*.test.mjs
+**/*.spec.js
+
+# CI / dev tooling
+.eslintrc*
+eslint.config.js
+vitest.config.js
+scripts
+
+# Documentation (not needed in image)
+docs
+README.md
+LICENSE
+NOTICE
+AUTHORS.md
+CITATION.cff
+
+# Sample / template files
+.sipmap.yml.example
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
