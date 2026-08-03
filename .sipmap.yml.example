@@ -1,0 +1,76 @@
+# sipmap — default per-repo configuration
+# Copy this file to `.sipmap.yml` in your repo's default branch to customize behavior.
+# All keys are optional — sensible defaults apply if the file is missing.
+
+# ----- Rate limits (anti-flood) -----
+rateLimits:
+  perUserPerPR: 3            # max bot replies per user per PR per hour
+  perPRPerHour: 20           # max bot replies per PR per hour
+  perRepoPerHour: 100        # max bot actions per repo per hour
+  debounceSeconds: 600       # ignore same user+command+PR within this window
+  reactionOnlyAfterFirst: true
+
+# ----- Description validation -----
+description:
+  enabled: true
+  minLength: 30
+  requiredSections: []       # e.g. ["What changed", "Why", "How to test"]
+  autoNudgeOnEmpty: false    # set true to auto-comment when an issue/PR is opened with bad description
+
+# ----- Encouragement (cheerful + emojis) -----
+encouragement:
+  enabled: true
+  firstTimer: true           # 🎉 welcome for first-time contributors
+  firstIssue: true           # 👋 welcome for first-time issue filers
+  firstMerged: true          # 🚀 celebrate first merged PR
+  milestoneEvery: 5          # 🏆 celebrate every Nth merge (5, 10, 15, ...)
+  docContributor: true       # 📚 recognition for first doc PR
+  bugHunter: true            # 🐛 recognition for first bug-fix PR
+  welcomeBack: true          # 🌱 welcome back after 90+ days absence
+  streak: true               # 🔥 celebrate consecutive weeks
+  staleBuster: true          # 🧹 recognition for resolving stale issues
+  topReviewer: true          # ⭐ recognition for top reviewers
+  helpfulReview: true        # 💯 thanks on substantive review comments
+  staleReopen: true          # 👋 friendly nudge on stale reopen
+
+# ----- Process testing (for /test) -----
+processTesting:
+  requireTemplate: true
+  requireLinkedIssue: false
+  requiredLabels: []         # e.g. ["needs-review"]
+  branchPattern: ""          # e.g. "^(feat|fix|chore)/.+"
+  commitPattern: ""          # e.g. "^(feat|fix|chore)(\(.+\))?: .+"
+  titleMaxLength: 72
+  maxPRSize: 400             # warn if PR exceeds N lines
+  secretScan: true
+  conflictScan: true
+  includeDescriptionCheck: true
+
+# ----- Maintainer notifications -----
+maintainers:
+  useCodeowners: true
+  fallbackHandles: []        # e.g. ["@maintainer1", "@maintainer2"]
+
+# ----- Auto-triage -----
+autoTriage:
+  enabled: false
+  requireMaintainer: false
+  rules:                     # title regex → labels
+    - match: "^bug:"
+      labels: ["bug", "needs-triage"]
+    - match: "^feat:"
+      labels: ["enhancement", "needs-triage"]
+    - match: "^docs?:"
+      labels: ["documentation"]
+
+# ----- Stale handling -----
+stale:
+  enabled: false
+  issueDays: 30
+  prDays: 14
+  autoCloseDays: 60
+
+# ----- Weekly digest -----
+weeklyDigest:
+  enabled: false
+  issueNumber: 0             # pre-created tracking issue to post digest into

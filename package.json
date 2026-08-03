@@ -1,0 +1,69 @@
+{
+  "name": "sipmap",
+  "version": "1.0.0",
+  "description": "A free, open-source GitHub App bot — process testing, maintainer notifications, and encouragement for contributors.",
+  "author": "MUDIT AGRAWAL (https://github.com/muditagrawal2007)",
+  "license": "MIT",
+  "homepage": "https://github.com/muditagrawal2007/sipmap#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/muditagrawal2007/sipmap.git"
+  },
+  "bugs": {
+    "url": "https://github.com/muditagrawal2007/sipmap/issues"
+  },
+  "keywords": [
+    "github",
+    "github-app",
+    "probot",
+    "bot",
+    "process-testing",
+    "contributors",
+    "encouragement",
+    "maintainers",
+    "free",
+    "mit"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "main": "src/index.js",
+  "scripts": {
+    "start": "probot receive ./src/index.js",
+    "lint": "eslint . --ext .js",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "verify:free": "bash scripts/verify-free.sh",
+    "verify:no-actions": "bash scripts/verify-no-actions-trigger.sh",
+    "verify:all": "npm run verify:free && npm run verify:no-actions",
+    "audit": "npm audit --omit=dev"
+  },
+  "dependencies": {
+    "probot": "^13.4.0",
+    "@octokit/webhooks-types": "^7.6.1",
+    "js-yaml": "^4.1.0",
+    "pino": "^9.5.0"
+  },
+  "devDependencies": {
+    "vitest": "^2.1.8",
+    "@vitest/coverage-v8": "^2.1.8",
+    "nock": "^14.0.1",
+    "fast-check": "^3.23.1",
+    "supertest": "^7.0.0",
+    "eslint": "^9.17.0",
+    "eslint-plugin-security": "^3.0.1",
+    "globals": "^15.14.0"
+  },
+  "files": [
+    "src/",
+    "scripts/",
+    "docs/",
+    "app.yml",
+    "README.md",
+    "LICENSE",
+    "NOTICE",
+    "AUTHORS.md",
+    "CITATION.cff"
+  ]
+}

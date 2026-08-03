@@ -1,0 +1,23 @@
+{
+  "action": "created",
+  "issue": {
+    "number": 42,
+    "title": "Test issue",
+    "body": "This is a test issue body",
+    "state": "open",
+    "user": { "login": "alice" },
+    "pull_request": null
+  },
+  "comment": {
+    "id": 1001,
+    "body": ":sipmap /help",
+    "user": { "login": "alice", "type": "User" }
+  },
+  "repository": {
+    "id": 12345,
+    "name": "sipmap-test",
+    "full_name": "alice/sipmap-test",
+    "owner": { "login": "alice" }
+  },
+  "installation": { "id": 999 }
+}

@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "If you use sipmap in your research or project, please cite it."
+title: "sipmap"
+type: software
+date-released: 2026-01-01
+url: "https://github.com/muditagrawal2007/sipmap"
+repository-code: "https://github.com/muditagrawal2007/sipmap"
+license: MIT
+authors:
+  - family-names: AGRAWAL
+    given-names: MUDIT
+    alias: muditagrawal2007
+    orcid: ""
+keywords:
+  - github
+  - github-app
+  - probot
+  - bot
+  - process-testing
+  - contributors
+  - encouragement
+  - maintainers
+  - free
+  - open-source
+notes: "Free and open-source under MIT. No cost to install or use."

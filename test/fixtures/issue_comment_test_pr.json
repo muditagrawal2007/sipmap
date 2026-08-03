@@ -1,0 +1,25 @@
+{
+  "action": "created",
+  "issue": {
+    "number": 50,
+    "title": "Add login",
+    "body": "## What\nAdds login\n## How to test\nClick login button",
+    "state": "open",
+    "user": { "login": "bob" },
+    "pull_request": {
+      "url": "https://api.github.com/repos/alice/sipmap-test/pulls/50"
+    }
+  },
+  "comment": {
+    "id": 1002,
+    "body": ":sipmap /test",
+    "user": { "login": "bob", "type": "User" }
+  },
+  "repository": {
+    "id": 12345,
+    "name": "sipmap-test",
+    "full_name": "alice/sipmap-test",
+    "owner": { "login": "alice" }
+  },
+  "installation": { "id": 999 }
+}

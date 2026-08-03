@@ -1,0 +1,20 @@
+{
+  "action": "opened",
+  "issue": {
+    "number": 1,
+    "title": "Empty issue",
+    "body": "",
+    "state": "open",
+    "user": { "login": "alice" },
+    "pull_request": null,
+    "created_at": "2026-01-01T00:00:00Z"
+  },
+  "repository": {
+    "id": 12345,
+    "name": "sipmap-test",
+    "full_name": "alice/sipmap-test",
+    "owner": { "login": "alice" }
+  },
+  "installation": { "id": 999 },
+  "sender": { "login": "alice" }
+}
