@@ -15,4 +15,13 @@ module.exports = {
   helpfulReview: require('./helpfulReview'),
   staleReopen: require('./staleReopen'),
   conversationStarter: require('./conversationStarter'),
+  testWriter: require('./testWriter'),
+  typoFixer: require('./typoFixer'),
+  dependencyUpdater: require('./dependencyUpdater'),
+  weekendWarrior: require('./weekendWarrior'),
+  persistencePays: require('./persistencePays'),
+  securityChampion: require('./securityChampion'),
+  performanceFixer: require('./performanceFixer'),
+  polyglot: require('./polyglot'),
+  responsiveAuthor: require('./responsiveAuthor'),
 };

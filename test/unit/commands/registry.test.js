@@ -11,6 +11,9 @@ describe('command registry', () => {
       'thanks', 'metrics', 'review', 'label', 'unlabel',
       'good-first-issue', 'help-wanted', 'close', 'reopen',
       'lock', 'pin', 'weekly-digest', 'config',
+      'merge', 'duplicate', 'wontfix', 'invalid', 'priority',
+      'label-list', 'contributors', 'draft', 'ready',
+      'cleanup-stale', 'note', 'rebuild',
     ];
     for (const name of expected) {
       expect(commands[name], `command '${name}' should exist`).toBeDefined();
@@ -23,7 +26,8 @@ describe('command registry', () => {
   it('maintainer-only commands are flagged', () => {
     const maintainerOnly = ['assign', 'unassign', 'review', 'label', 'unlabel',
       'good-first-issue', 'help-wanted', 'close', 'reopen', 'lock', 'pin',
-      'weekly-digest', 'config'];
+      'weekly-digest', 'config', 'merge', 'duplicate', 'wontfix', 'invalid',
+      'priority', 'draft', 'ready', 'cleanup-stale', 'note', 'rebuild'];
     for (const name of maintainerOnly) {
       expect(commands[name].requiresMaintainer, `${name} should be maintainer-only`).toBe(true);
     }
@@ -32,7 +36,8 @@ describe('command registry', () => {
   it('public commands are not maintainer-only', () => {
     const publicCmds = ['help', 'test', 'status', 'lint', 'describe', 'size',
       'secrets', 'deps', 'branch', 'commits', 'title', 'docs', 'tests',
-      'approvals', 'claim', 'unclaim', 'thanks', 'metrics'];
+      'approvals', 'claim', 'unclaim', 'thanks', 'metrics', 'label-list',
+      'contributors'];
     for (const name of publicCmds) {
       expect(commands[name].requiresMaintainer, `${name} should be public`).toBe(false);
     }

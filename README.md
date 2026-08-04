@@ -89,9 +89,11 @@ Want no-sleep? Use [Fly.io](https://fly.io) instead — see [`docs/self-host.md`
 | `:sipmap /thanks @user` | Manual kudos |
 | `:sipmap /review` | Ping maintainers |
 | `:sipmap /metrics @user` | Show contributor stats |
-| `:sipmap /config` | Show effective config (maintainer) |
+| `:sipmap /label-list` | List all repo labels |
+| `:sipmap /contributors` | Top contributors by merged PRs |
+| `:sipmap /config` | Show effective config |
 
-Maintainer-only commands: `/good-first-issue`, `/help-wanted`, `/label`, `/unlabel`, `/close`, `/reopen`, `/lock`, `/pin`, `/weekly-digest`, `/config set`.
+**Maintainer-only**: `/good-first-issue`, `/help-wanted`, `/label`, `/unlabel`, `/priority`, `/merge`, `/duplicate`, `/wontfix`, `/invalid`, `/draft`, `/ready`, `/rebuild`, `/cleanup-stale`, `/note`, `/close`, `/reopen`, `/lock`, `/pin`, `/weekly-digest`, `/config set`.
 
 ## ⚙️ Configuration
 

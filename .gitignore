@@ -5,6 +5,8 @@ node_modules/
 .env
 .env.local
 .env.*.local
+*.pem
+app-private-key.pem
 
 # Logs
 logs/

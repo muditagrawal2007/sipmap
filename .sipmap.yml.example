@@ -32,6 +32,15 @@ encouragement:
   topReviewer: true          # ⭐ recognition for top reviewers
   helpfulReview: true        # 💯 thanks on substantive review comments
   staleReopen: true          # 👋 friendly nudge on stale reopen
+  testWriter: true           # 🧪 first PR adding tests
+  typoFixer: true            # ✏️ first PR fixing typos/small docs
+  dependencyUpdater: true    # 📦 first PR bumping deps
+  weekendWarrior: true       # 🌙 first PR merged on a weekend
+  persistencePays: true      # 🕰️ first PR after 90+ day gap
+  securityChampion: true     # 🔒 first security PR
+  performanceFixer: true     # 🚀 first performance PR
+  polyglot: true             # 🌐 first PR in a new language
+  responsiveAuthor: true     # 💬 first PR where author responded to feedback
 
 # ----- Process testing (for /test) -----
 processTesting:
