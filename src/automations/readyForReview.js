@@ -8,15 +8,14 @@ module.exports = {
     const pr = context.payload.pull_request;
     if (!pr || pr.draft) return;
     // Only label if all check-runs pass.
-    try {
-      const { data } = await context.octokit.checks.listForRef({ ...context.repo(), ref: pr.head.sha, per_page: 100 });
-      const checks = data.check_runs || [];
-      if (checks.length === 0) return;
-      if (checks.every((c) => c.conclusion === 'success' || c.conclusion === 'neutral' || c.conclusion === 'skipped')) {
-        await context.octokit.issues.addLabels({ ...context.repo(), issue_number: pr.number, labels: ['ready-for-review'] });
-      }
-    } catch (err) {
-      void err; /* checks API may 404 on PRs without checks; safe to skip */
-    }
+    const { data } = await context.octokit.checks.listForRef({ ...context.repo(), ref: pr.head.sha, per_page: 100 });
+    const checks = data.check_runs || [];
+    if (checks.length === 0) return;
+    if (!checks.every((c) => c.conclusion === 'success' || c.conclusion === 'neutral' || c.conclusion === 'skipped')) return;
+    // Skip if label already present — avoid wasting API calls on every check_run.
+    const { data: issue } = await context.octokit.issues.get({ ...context.repo(), issue_number: pr.number });
+    const has = (issue.labels || []).some((l) => (typeof l === 'string' ? l : l.name) === 'ready-for-review');
+    if (has) return;
+    await context.octokit.issues.addLabels({ ...context.repo(), issue_number: pr.number, labels: ['ready-for-review'] });
   },
 };

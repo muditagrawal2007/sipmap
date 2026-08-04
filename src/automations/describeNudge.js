@@ -14,7 +14,15 @@ module.exports = {
     const tpl = await getTemplate(context, kind);
     const verdict = evaluate(issue.body || '', tpl, cfg.description);
     if (verdict.ok) return;
+    const { data: comments } = await context.octokit.issues.listComments({
+      ...context.repo(),
+      issue_number: issue.number,
+      per_page: 50,
+    });
+    const marker = `<!-- sipmap-describe-nudge:${issue.number} -->`;
+    if (comments.some((c) => (c.body || '').includes(marker))) return;
     const lines = [
+      marker,
       '👋 Hi! I noticed the description is missing some pieces:',
       '',
       verdict.empty ? '- The description is empty.' : `- Length: ${verdict.length} chars (recommended ≥ ${cfg.description.minLength}).`,

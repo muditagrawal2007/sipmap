@@ -7,15 +7,18 @@ module.exports = {
   async run(context) {
     const pr = context.payload.pull_request;
     if (!pr) return;
-    try {
-      const { data } = await context.octokit.pulls.get({ ...context.repo(), pull_number: pr.number });
-      if (data.mergeable_state === 'dirty') {
-        await context.octokit.issues.createComment(context.issue({
-          body: '⚠️ This PR has merge conflicts. Please resolve them before requesting review.',
-        }));
-      }
-    } catch (err) {
-      void err; /* GitHub may report unknown mergeable state; safe to skip */
-    }
+    const { data } = await context.octokit.pulls.get({ ...context.repo(), pull_number: pr.number });
+    if (data.mergeable_state !== 'dirty') return;
+    const { data: comments } = await context.octokit.issues.listComments({
+      ...context.repo(),
+      issue_number: pr.number,
+      per_page: 50,
+    });
+    const recentMarker = comments.some((c) => (c.body || '').includes('<!-- sipmap-conflict-detect:'));
+    if (recentMarker) return;
+    const marker = `<!-- sipmap-conflict-detect:${pr.head.sha.slice(0, 7)} -->`;
+    await context.octokit.issues.createComment(context.issue({
+      body: `${marker}\n⚠️ This PR has merge conflicts. Please resolve them before requesting review.`,
+    }));
   },
 };

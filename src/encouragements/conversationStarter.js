@@ -15,13 +15,17 @@ module.exports = {
     if (ageDays < 14) return false;
     if (pr.state !== 'open') return false;
     // Avoid being a bot-on-bot: ensure at least one prior comment exists.
-    const { data: comments } = await context.octokit.issues.listComments({ ...context.repo(), issue_number: pr.number, per_page: 1 });
-    return comments.length > 0;
+    const { data: comments } = await context.octokit.issues.listComments({ ...context.repo(), issue_number: pr.number, per_page: 100 });
+    if (comments.length === 0) return false;
+    // Dedup: skip if a sipmap conversation starter was posted in the last 7 days.
+    const recentMarker = comments.some((c) => (c.body || '').includes('<!-- sipmap-conversation-starter -->'));
+    if (recentMarker) return false;
+    return true;
   },
   async run(context) {
     const pr = context.payload.pull_request;
     await context.octokit.issues.createComment(context.issue({
-      body: `💬 Hey friends — this PR has been open for ${Math.round((Date.now() - new Date(pr.created_at)) / 86400e3)} days. @${pr.user.login}, is there anything blocking merge? Maintainers, anything else you need? 🧵`,
+      body: `<!-- sipmap-conversation-starter -->\n💬 Hey friends — this PR has been open for ${Math.round((Date.now() - new Date(pr.created_at)) / 86400e3)} days. @${pr.user.login}, is there anything blocking merge? Maintainers, anything else you need? 🧵`,
     }));
   },
 };

@@ -42,8 +42,13 @@ module.exports = (app) => {
       await handler.execute(context, parsed.args, cfg);
       logger.info({ event: 'command', repo_id: repoId, command: parsed.name, actor_login: user, result: 'ok' });
     } catch (err) {
-      logger.warn({ event: 'command_error', repo_id: repoId, command: parsed.name, actor_login: user, result: 'error' });
-      void err; // error already logged with redacted fields
+      logger.error({
+        event: 'command_error',
+        repo_id: repoId,
+        command: parsed.name,
+        actor_login: user,
+        error: err && (err.stack || err.message || String(err)),
+      });
     }
   });
 
@@ -55,7 +60,15 @@ module.exports = (app) => {
         const cfg = await getRepoConfig(context);
         if (!(await e.shouldRun(context, cfg))) return;
         await e.run(context, cfg);
-      } catch (err) { void err; /* swallow per-event failures to keep bot running */ }
+        logger.info({ event: 'encouragement', name: e.name, repo_id: context.payload.repository?.id, result: 'ok' });
+      } catch (err) {
+        logger.error({
+          event: 'encouragement_error',
+          name: e.name,
+          repo_id: context.payload.repository?.id,
+          error: err && (err.stack || err.message || String(err)),
+        });
+      }
     });
   }
 
@@ -66,7 +79,14 @@ module.exports = (app) => {
       try {
         const cfg = await getRepoConfig(context);
         await a.run(context, cfg);
-      } catch (err) { void err; /* swallow per-event failures to keep bot running */ }
+      } catch (err) {
+        logger.error({
+          event: 'automation_error',
+          name: a.name,
+          repo_id: context.payload.repository?.id,
+          error: err && (err.stack || err.message || String(err)),
+        });
+      }
     });
   }
 };
