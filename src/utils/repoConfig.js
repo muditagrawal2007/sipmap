@@ -8,7 +8,7 @@ const DEFAULTS = {
     perUserPerPR: 3,
     perPRPerHour: 20,
     perRepoPerHour: 100,
-    debounceSeconds: 600,
+    debounceSeconds: 30,
     reactionOnlyAfterFirst: true,
   },
   description: {

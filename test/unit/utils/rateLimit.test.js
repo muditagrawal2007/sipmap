@@ -5,7 +5,7 @@ import { shouldAllow, _reset } from '../../../src/utils/rateLimit.js';
 describe('rateLimit', () => {
   beforeEach(() => _reset());
 
-  const baseLimits = { perUserPerPR: 3, perPRPerHour: 20, perRepoPerHour: 100, debounceSeconds: 600 };
+  const baseLimits = { perUserPerPR: 3, perPRPerHour: 20, perRepoPerHour: 100, debounceSeconds: 30 };
 
   it('allows the first call', () => {
     const r = shouldAllow({ repoId: 1, prNumber: 10, user: 'alice', command: 'help', limits: baseLimits });
